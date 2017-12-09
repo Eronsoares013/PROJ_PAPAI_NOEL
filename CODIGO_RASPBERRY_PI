@@ -1,0 +1,66 @@
+import time # modulo do temporizador
+
+from sys import exit
+
+import pygame # modulo responsavel por tocar a musica
+
+import serial # modulo comunicacao serial com arduino
+
+# modulo responsavel por encontra a # predeterminada
+from twython import TwythonStreamer 
+
+
+
+#Hashtag a ser pesquisada
+TERMS = '#FactoFelizNatal'
+
+
+ 
+
+ 
+#Autenticacao na aplicacao Twitter
+APP_KEY = 'COLAR AQUI'
+APP_SECRET = 'COLAR AQUI'
+OAUTH_TOKEN = 'COLAR AQUI '
+OAUTH_TOKEN_SECRET = 'COLAR AQUI'
+#print'lol1'
+class BlinkyStreamer(TwythonStreamer):
+    #print'lol2'
+    
+    def on_success(self, data):
+        
+        if 'text' in data:
+            print data['text'].encode('utf-8')
+
+            #print'lol3'
+    
+            for x in range(0,1):
+                #print "lol4"                                         
+                arduino=serial.Serial('/dev/ttyACM0',9600) # DEPENDE DA SUA PORTA SERIAL ENCONTRADA '/dev/ttyACM1"
+                                                            
+                arduino.write('a')
+                recebe=arduino.read()
+                #print recebe
+                arduino.close()
+                time.sleep(0.1)
+                print'nao pode'
+                if(recebe=='L'):
+                        pygame.init()
+                        pygame.mixer.music.load('/home/pi/Desktop/projeto_fisica/AUDIO/Papai Noel Editado m.mp3')
+                        pygame.mixer.music.play()
+                        time.sleep(56)
+                        #pygame.event.wait()
+                        pygame.mixer.music.stop()
+                        #print''
+                        #print'saiu'
+                        print'lol5'
+        
+#Loop principal
+try:
+        #print"lol6"
+        stream = BlinkyStreamer(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
+        stream.statuses.filter(track=TERMS)
+        
+except KeyboardInterrupt:
+        GPIO.cleanup()
+
