@@ -1,0 +1,388 @@
+
+/*
+  Name:		controle_arduino_Motor.ino
+  Created:	10/24/2017 9:51:28 PM
+  Author:	Erons
+  programa para controle de motor de passo nena 17
+*/
+#include <Stepper.h>
+
+int x;
+int y;
+int tempo = 5;
+int tempo1 = 5;
+//xxx---> Motor 0 <---xx
+int Enable = 8;
+int Step = 9;
+int Dir = 4;
+//xxx---> Motor 1 <---xx
+int Enable1 = 12;
+int Step1 = 2;
+int Dir1 = 3;
+//xxx-->Motor Head
+#define   in1   11        //entrada 1 do ULN2003
+#define   in2   10       //entrada 2 do ULN2003
+#define   in3    7      //entrada 3 do ULN2003
+#define   in4    6     //entrada 4 do ULN2003
+
+// --- Constantes Auxiliares ---
+const int stepsPerRevolution = 500;  // change this to fit the number of steps per revolution
+
+
+// ========================================================================================================
+// --- Declaracao de Objetos ---
+Stepper myStepper(stepsPerRevolution, in1, in3, in2, in4);
+
+// the setup function runs once when you press reset or power the board
+void setup() {
+
+  Serial.begin(9600);
+
+  //xxxxxxxxxxxxxxx--> Motor 0 <--xxxxxxxxxxxxx
+
+  pinMode(Enable, OUTPUT);
+  delay(1);
+  digitalWrite(Enable, HIGH);
+  delay(1);
+  pinMode(Step, OUTPUT);
+  pinMode(Dir, OUTPUT);
+
+  //xxxxxxxxxxxxxxx--> Motor 1 <--xxxxxxxxxxxxxx
+
+  pinMode(Enable1, OUTPUT);
+  delay(1);
+  digitalWrite(Enable1, HIGH);
+  delay(1);
+  pinMode(Step1, OUTPUT);
+  pinMode(Dir1, OUTPUT);
+
+  myStepper.setSpeed(20);
+
+  //delay(1);
+  //digitalWrite(Step, LOW);
+  //delay(2000);
+  //voltar_Estado_Inicial();
+
+}
+
+// the loop function runs over and over again until power down or reset
+void loop() {
+
+
+
+  //Serial.println("Loop 800 passos (1 Rev)");
+  //delay(1000);
+
+  if (Serial.available()) { // faz a leitura do Monitor Serial
+    char ch = Serial.read(); // Ler e armazema os dados escrito no serial monitor na varialvel ch
+
+    if (ch == 'a') //se a variavel ch conter a letra 'A' entra na condicao
+    { delay(200);
+      char ch1 = Serial.write("L");
+      //Serial.println("L");
+
+
+      myStepper.step(200);
+      delay(5);
+      myStepper.step(-400);
+      delay(5);
+      myStepper.step(400);
+      delay(5);
+      myStepper.step(-200);
+      delay(5);
+
+
+      Motor_step_Right(60, tempo); // funcao para acionar o motor para direita
+      delay(100);
+      Motor_step_Left(60, tempo); // funcao para acionar o Motor para esquerda
+      delay(100);
+      Motor_step_Right(60, tempo); // funcao para acionar o motor para direita
+      delay(100);
+      Motor_step_Left(60, tempo); // funcao para acionar o Motor para esquerda
+      delay(100);
+
+
+      digitalWrite(Enable, HIGH);
+      digitalWrite(Enable1, HIGH);
+      delay(100);
+
+      Motor_Back_Go_Two_Step_Left(60, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Right(40, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Left(40, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Right(40, tempo1);
+      delay(10);
+
+      digitalWrite(Enable, HIGH);
+      digitalWrite(Enable1, HIGH);
+      delay(100);
+
+      myStepper.step(200);
+      delay(10);
+      myStepper.step(-400);
+      delay(10);
+      myStepper.step(400);
+      delay(10);
+      myStepper.step(-400);
+      delay(10);
+      myStepper.step(400);
+      delay(10);
+      myStepper.step(-200);
+
+
+
+
+      Motor_step_Right(60, tempo); // funcao para acionar o motor para direita
+      delay(100);
+      Motor_step_Left(60, tempo); // funcao para acionar o Motor para esquerda
+      delay(100);
+      Motor_step_Right(60, tempo); // funcao para acionar o motor para direita
+      delay(100);
+      Motor_step_Left(60, tempo); // funcao para acionar o Motor para esquerda
+      delay(100);
+      Motor_step_Right(60, tempo); // funcao para acionar o motor para direita
+      delay(100);
+      Motor_step_Left(60, tempo); // funcao para acionar o Motor para esquerda
+      delay(100);
+
+      digitalWrite(Enable, HIGH);
+
+      Motor_Back_Go_Two_Step_Left(60, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Right(40, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Left(40, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Right(40, tempo1);
+      delay(100);
+      Motor_Back_Go_Two_Step_Left(40, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Right(40, tempo1);
+      delay(100);
+
+      digitalWrite(Enable, HIGH);
+      digitalWrite(Enable1, HIGH);
+      delay(50);
+
+
+      Motor_step_Left1(50, tempo); // funcao para acionar o Motor para esquerda
+      delay(100);
+      Motor_step_Right1(50, tempo); // funcao para acionar o motor para direita
+      delay(100);
+      Motor_step_Left1(50, tempo); // funcao para acionar o Motor para esquerda
+      delay(100);
+      Motor_step_Right1(50, tempo); // funcao para acionar o motor para direita
+      delay(100);
+      Motor_step_Left1(40, tempo); // funcao para acionar o Motor para esquerda
+      delay(100);
+      Motor_step_Right1(50, tempo); // funcao para acionar o motor para direita
+      delay(100);
+
+
+
+      digitalWrite(Enable, HIGH);
+      digitalWrite(Enable1, HIGH);
+      delay(10);
+      for (x = 0; x < 1; x++) {
+
+
+        myStepper.step(200);
+        delay(10);
+        myStepper.step(-400);
+        delay(10);
+        myStepper.step(400);
+        delay(10);
+        myStepper.step(-200);
+        delay(10);
+      }
+
+      Motor_Back_Go_Two_Step_Left(60, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Right(40, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Left(40, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Right(40, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Left(40, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Right(40, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Left(40, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Right(40, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Left(40, tempo1);
+      delay(10);
+      Motor_Back_Go_Two_Step_Right(60, tempo1);
+
+      delay(10);
+      apagar_buffer();
+      delay(10);
+      digitalWrite(Enable, HIGH);
+      digitalWrite(Enable1, HIGH);
+
+    }//fim if
+  }//fim serial.available
+}//fim do Loop
+
+
+//xxxxxxxxxxxxxxxxxx--> APAGA_BUFFER serial <--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+void apagar_buffer() { // funcao responsavel por apagar  Serial monitor evitando executar varias vezes depois de acionado
+
+  if (Serial.available() > 0) { // faz a leitura no monitor serial
+    delay(100);
+    for (x = 0; x < 50; x++) {
+      delay(100);
+      char limpar = Serial.read(); // variavel ch recebe o caracter do monitor Serial
+      Serial.println(limpar);
+    }
+  }
+}// fim funcao Apagar Buffer
+
+
+//xxxxxxxxxxxxxxxxxx--> Motor 0 <--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+//xxxxxxxxxxxxxxxxxx----->>>> Funcao para movimento do motor para o lado Esquerdo
+
+
+void Motor_step_Left(int passo, int velocidade) { //Funcao para movimento do motor para o lado Esquerdo
+
+  delayMicroseconds(100);
+  digitalWrite(Dir, LOW);
+  delay(10);
+  digitalWrite(Enable, LOW);
+  delay(10);
+  for (x = 0; x < passo; x++) {
+    //Serial.println(x);
+    digitalWrite(Step, LOW);
+    delay(velocidade);
+    digitalWrite(Step, HIGH);
+    delay(velocidade);
+  }
+
+
+}//fim funcao lado Direito Motor 0
+
+//xxxxxxxxxxxxxxxxxx----->>>> Funcao para movimento do motor para o lado Direito
+
+
+void Motor_step_Right(int passo, int velocidade) {
+  delayMicroseconds(100);
+  digitalWrite(Dir, HIGH);
+  delay(10);
+  digitalWrite(Enable, LOW);
+  delay(10);
+  for (x = 0; x < passo; x++) {
+    //Serial.println(x);
+    digitalWrite(Step, LOW);
+    delay(velocidade);
+    digitalWrite(Step, HIGH);
+    delay(velocidade);
+  }
+
+
+}//fim funcao lado Esquerdo Motor 0
+
+//xxxxxxxxxxxxxxxxxx--> Motor 1 <--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+//xxxxxxxxxxxxxxxxxx----->>>> Funcao para movimento do motor para o lado Esquerdo
+
+
+void Motor_step_Left1(int passo, int velocidade) { //Funcao para movimento do motor para o lado Esquerdo
+  delayMicroseconds(100);
+  digitalWrite(Dir1, LOW); // ativa a direcao em que se quer acinar o motor
+  delay(10);
+  digitalWrite(Enable1, LOW); // ativa o motor para qeu possa ser acionado
+  delay(10);
+  for (x = 0; x < passo; x++) { // responsavel pelos passo do motor
+    //Serial.println(x);
+    digitalWrite(Step1, LOW);
+    delay(velocidade);
+    digitalWrite(Step1, HIGH);
+    delay(velocidade);
+  }
+
+
+}//fim funcao lado Esquedo Motor 1
+
+//xxxxxxxxxxxxxxxxxx----->>>> Funcao para movimento do motor para o lado Direito
+
+void Motor_step_Right1(int passo, int velocidade) { //Funcao para movimento do motor para o lado Direito
+  delayMicroseconds(100);
+  digitalWrite(Dir1, HIGH);
+  delay(10);
+  digitalWrite(Enable1, LOW);
+  delay(10);
+  for (x = 0; x < passo; x++) {
+    //Serial.println(x);
+    digitalWrite(Step1, LOW);
+    delay(velocidade);
+    digitalWrite(Step1, HIGH);
+    delay(velocidade);
+  }
+
+
+}//fim funcao lado Direito Motor 1
+
+//xxxxxxxxxxxxxxxxxx----->>>> Funcao para acionar os dois lado do motor simutameamente
+
+
+void Motor_Back_Go_Two_Step_Left(int passo, int velocidade) { //Funcao para acionar os dois lado do motor simutameamente
+
+
+
+  delayMicroseconds(100);
+  digitalWrite(Dir1, LOW);
+  digitalWrite(Dir, HIGH);
+  delay(10);
+  digitalWrite(Enable1, LOW);
+  digitalWrite(Enable, LOW);
+  delay(10);
+  for (x = 0; x < passo; x++) {
+
+    //Serial.println(x);
+
+    delay(velocidade);
+    digitalWrite(Step, LOW);
+    delay(1);
+    digitalWrite(Step1, LOW);
+    delay(velocidade);
+    digitalWrite(Step, HIGH);
+    delay(1);
+    digitalWrite(Step1, HIGH);
+    //delay(velocidade);
+  }
+}
+
+void Motor_Back_Go_Two_Step_Right(int passo, int velocidade) { //Funcao para acionar os dois lado do motor simutameamente
+
+
+
+  delayMicroseconds(100);
+  digitalWrite(Dir1, HIGH);
+  digitalWrite(Dir, LOW);
+  delay(10);
+  digitalWrite(Enable1, LOW);
+  digitalWrite(Enable, LOW);
+  delay(10);
+  for (x = 0; x < passo; x++) {
+
+    //Serial.println(x);
+
+    delay(velocidade);
+    digitalWrite(Step, LOW);
+    delay(1);
+    digitalWrite(Step1, LOW);
+    delay(velocidade);
+    digitalWrite(Step, HIGH);
+    delay(1);
+    digitalWrite(Step1, HIGH);
+    //delay(velocidade);
+  }
+}
+
+
